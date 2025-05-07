@@ -36,7 +36,7 @@ const Index = () => {
           if (chapters.length > 0) {
             // Get the latest chapter
             const latestChapter = chapters.reduce((latest, current) =>
-              new Date(current.updatedAt) > new Date(latest.updatedAt)
+              new Date(current.createdAt) > new Date(latest.createdAt)
                 ? current
                 : latest
             );

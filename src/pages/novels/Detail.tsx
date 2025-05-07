@@ -51,10 +51,10 @@ const NovelDetail = () => {
           setNovel(novelData);
           const sortedChapters = [...chaptersData].sort((a, b) =>
             sortOrder === "newest"
-              ? new Date(b.updatedAt).getTime() -
-                new Date(a.updatedAt).getTime()
-              : new Date(a.updatedAt).getTime() -
-                new Date(b.updatedAt).getTime()
+              ? new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime()
+              : new Date(a.createdAt).getTime() -
+                new Date(b.createdAt).getTime()
           );
           setChapters(sortedChapters);
         } else {
