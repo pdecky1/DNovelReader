@@ -23,7 +23,12 @@ const Index = () => {
     const loadData = async () => {
       try {
         const novelsData = await fetchNovels();
-        setNovels(novelsData);
+        // Sort novels by updatedAt in descending order and take only 4
+        const sortedNovels = [...novelsData].sort(
+          (a, b) =>
+            new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+        ).slice(0, 4);
+        setNovels(sortedNovels);
 
         // Fetch latest chapters for each novel
         const chaptersPromises = novelsData.map(async (novel) => {

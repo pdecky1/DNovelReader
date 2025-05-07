@@ -22,20 +22,20 @@ const ChapterCard: React.FC<ChapterCardProps> = ({ chapter, novel }) => {
           <img
             src={novel.imageUrl}
             alt={novel.title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-top"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               target.src = "https://images.unsplash.com/photo-1532012197267-da84d127e765";
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
-            <h3 className="text-lg font-bold text-white p-3 font-serif line-clamp-1">
+          <div className="absolute inset-0 bg-gradient-to-t to-black/60 from-transparent flex items-start">
+            <h3 className="text-lg font-bold text-white p-3 font-serif">
               {novel.title}
             </h3>
           </div>
         </div>
         <CardContent className="flex-1 pt-3">
-          <h4 className="font-medium mb-2 line-clamp-1">{chapter.title}</h4>
+          <h4 className="font-medium mb-2">{chapter.title}</h4>
           <p className="text-sm text-novel-500">
             {formatDistanceToNow(new Date(chapter.updatedAt), {
               addSuffix: true,

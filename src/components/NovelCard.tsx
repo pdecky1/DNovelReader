@@ -16,7 +16,7 @@ const NovelCard: React.FC<NovelCardProps> = ({ novel }) => {
         <img
           src={novel.imageUrl}
           alt={novel.title}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-top"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
             target.src = "https://images.unsplash.com/photo-1532012197267-da84d127e765";
