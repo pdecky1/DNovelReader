@@ -10,10 +10,12 @@ import { Separator } from "@/components/ui/separator";
 import { Novel, Genre } from "@/types";
 import { fetchgenres, searchNovels } from "@/services/novelService";
 import { Search as SearchIcon, Filter, X } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialQuery = searchParams.get("query") || "";
+  const { isAuthenticated } = useAuth();
   
   const [query, setQuery] = useState(initialQuery);
   const [novels, setNovels] = useState<Novel[]>([]);
@@ -27,7 +29,7 @@ const Search = () => {
       try {
         const [genres, searchResults] = await Promise.all([
           fetchgenres(),
-          searchNovels(initialQuery, selectedGenreIds),
+          searchNovels(initialQuery, selectedGenreIds, isAuthenticated),
         ]);
         
         setAvailablegenres(genres);

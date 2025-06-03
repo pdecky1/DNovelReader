@@ -8,10 +8,16 @@ import { mockNovels, mockgenres } from "./mockData"; // We'll create this file f
 let novels = [...mockNovels];
 let availablegenres = [...mockgenres];
 
-export const fetchNovels = async (): Promise<Novel[]> => {
+export const fetchNovels = async (isAdmin: boolean = false): Promise<Novel[]> => {
   try {
     if (!isSupabaseConfigured()) {
       await new Promise(resolve => setTimeout(resolve, 500));
+      // Filter out novels with "Hidden" genre if not admin
+      if (!isAdmin) {
+        return novels.filter(novel => 
+          !novel.genres.some(genre => genre.name === "Hidden")
+        );
+      }
       return novels;
     }
 
@@ -51,6 +57,13 @@ export const fetchNovels = async (): Promise<Novel[]> => {
         updatedAt: novel.updated_at
       };
     });
+    
+    // Filter out novels with "Hidden" genre if not admin
+    if (!isAdmin) {
+      return novelsWithgenres.filter(novel => 
+        !novel.genres.some(genre => genre.name === "Hidden")
+      );
+    }
     
     return novelsWithgenres;
   } catch (error) {
@@ -437,7 +450,7 @@ export const fetchgenres = async (): Promise<Genre[]> => {
   }
 };
 
-export const searchNovels = async (query: string, selectedgenres: string[] = []): Promise<Novel[]> => {
+export const searchNovels = async (query: string, selectedgenres: string[] = [], isAdmin: boolean = false): Promise<Novel[]> => {
   try {
     if (!isSupabaseConfigured()) {
       await new Promise(resolve => setTimeout(resolve, 400));
@@ -456,6 +469,12 @@ export const searchNovels = async (query: string, selectedgenres: string[] = [])
         return matchesQuery && matchesgenres;
       });
       
+      // Filter out novels with "Hidden" genre if not admin
+      if (!isAdmin) {
+        return searchResults.filter(novel => 
+          !novel.genres.some(genre => genre.name === "Hidden")
+        );
+      }
       return searchResults;
     }
 
@@ -514,6 +533,13 @@ export const searchNovels = async (query: string, selectedgenres: string[] = [])
         selectedgenres.every(tagId => 
           novel.genres.some(tag => tag.id === tagId)
         )
+      );
+    }
+    
+    // Filter out novels with "Hidden" genre if not admin
+    if (!isAdmin) {
+      return novelsWithgenres.filter(novel => 
+        !novel.genres.some(genre => genre.name === "Hidden")
       );
     }
     

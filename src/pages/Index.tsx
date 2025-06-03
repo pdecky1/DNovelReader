@@ -8,8 +8,10 @@ import { Novel, Chapter } from "@/types";
 import { fetchNovels } from "@/services/novelService";
 import { fetchChaptersByNovelId } from "@/services/chapterService";
 import { Book, Plus, ChevronLeft, ChevronRight } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Index = () => {
+  const { isAuthenticated } = useAuth();
   const [novels, setNovels] = useState<Novel[]>([]);
   const [latestChapters, setLatestChapters] = useState<
     Array<{ chapter: Chapter; novel: Novel }>
@@ -22,7 +24,7 @@ const Index = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const novelsData = await fetchNovels();
+        const novelsData = await fetchNovels(isAuthenticated);
         // Sort novels by updatedAt in descending order and take only 4
         const sortedNovels = [...novelsData].sort(
           (a, b) =>
